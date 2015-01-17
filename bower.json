@@ -1,0 +1,13 @@
+{
+  "name": "lab-crasher",
+  "description": "CECS448 Final Project - Lab Crasher",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "angular": "1.3.x",
+    "angular-mocks": "1.3.x",
+    "jquery": "1.10.2",
+    "jquery-ui": "~1.10.x",
+    "bootstrap": "~3.1.1"
+  }
+}

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="roomApp" ng-controller="RoomListCtrl"> 
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto'>
+		<link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/simple-sidebar.css">
+		<link rel="stylesheet" href="css/angular-slider.css">
+
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script> 
+		<script type="text/javascript" src="http://rawgit.com/prajwalkman/angular-slider/master/angular-slider.js"  charset="utf-8"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.3/angular-sanitize.js"></script>
+		<script type="text/javascript" src="bower_components/jquery/jquery.min.js"></script>
+  		<script type="text/javascript" src="bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+  		<script type="text/javascript" src="js/jquery.js"></script>
+  		<script type="text/javascript" src="js/bootstrap.min.js"></script>
+  		<script type="text/javascript" src="js/controllers.js"></script>
+  		<script type="text/javascript" src="js/slider.js"></script>
+    	<script src="http://code.angularjs.org/1.2.0-rc.3/angular-sanitize.min.js"></script>
+
+  		<title>Lab Finder</title>
+	</head>
+	<body>
+
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+        <div id="sidebar-wrapper">
+        	<div id="filterItem">
+        		<hr id="top">
+        		<label>All Filters</label><a class="clear" href="#" ng-click="clearAll()">Clear All</a></br>
+        		<hr id="bottom">
+
+				<label>Date &amp; Time</label><a class="clear" ng-click="clearDateTime()" href="#">Reset</a>
+				<input type="date" id="datePicker" ng-model="datePicker" value="{{datePicker | date:'yyyy-MM-dd'}}" ng-model-instance>
+				<input type="time" id="timePicker" ng-model="timePicker" placeholder="HH:mm:ss"  value="{{timePicker | date:'HH:mm:ss'}}" ng-model-instance>
+				<hr>
+
+				<label>Duration</label><a class="clear" href="#" ng-click="clearDuration()">Clear</a>
+				<div>
+					<div id="slider">
+						<span id="minus">–</span><span id="plus">+</span>
+				    	<slider floor="0" ceiling="600" step="15" ng-model-low="lower_bound" ng-model-high="upper_bound"></slider>
+				    </div>
+				    <p>Min: <strong>{{(Math.floor(lower_bound/60))}} hours {{(lower_bound%60)}} mins</strong></p>
+				    <p>Max: <strong>{{(Math.floor(upper_bound/60))}} hours {{(upper_bound%60)}} mins</strong></p>
+		        </div>
+		        <hr>
+		        
+				<label>Building</label><a ng-hide="filterBuildings == null" class="clear" href="#" ng-click="clearBuilding()">Clear</a>
+				<div ng-repeat = "item in buildings">
+		    		<label class="item"><input class="chklist" type="checkbox" ng-model="filterBuildings[item.name]"> {{item.name}}</label>
+		  		</div>
+		  		<hr>
+
+				<label>Type</label><a class="clear" href="#" ng-click="clearType()">Clear</a>
+		  		<div ng-repeat = "item in types">
+		    		<div ng-switch="item.type">
+				        <span ng-switch-when="Mac"><img class="icon" src="img/apple.png" height="15" alt="Apple Logo" title="Mac Lab" /></span>
+				        <span ng-switch-when="Windows"><img class="icon" src="img/windows.png" height="15" alt="Windows Logo" title="Windows Lab" /></span>
+				        <span ng-switch-when="Linux"><img class="icon" src="img/linux.png" height="15" alt="Linux Penguin Logo" title="Linux Lab" /></span>
+				        <span ng-switch-default><img class="icon" src="img/room.png" height="15" alt="Pencil and Paper" title="Classroom" /></span>
+					</div>
+		    		<label class="item"><input class="chklist" type="checkbox" ng-model="filterTypes[item.type]"> {{item.type}}</label>	
+
+		  		</div>
+		  		
+		  		<hr>
+		  		<!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary info-btn" data-toggle="modal" data-target="#myModal">
+				  About Lab Finder
+				</button>
+
+		  	</div>
+      	</div>
+
+	  	<!-- Modal start -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		        <h4 class="modal-title" id="myModalLabel">CSULB CECS 448 - Human Interface Design</h4>
+		      </div>
+		      <div class="modal-body">
+		        <h5><strong>Lab Finder</strong></h5>
+		        <p>Lab Finder is a final project for CSULB's CECS 448 - Human Interface Design, taught by Professor Tom Jewett in the Fall Semester of 2014.</p>
+		        <h5><strong>Team</strong></h5>
+		  		<ul>
+			  		<li>Angela Lin</li>
+			  		<li>Tina Mirchi</li>
+			  		<li>Israel Torres</li>
+			  		<li>Gyngai Ung</li>
+		  		</ul>
+		        <h5><strong>Tools</strong></h5>
+		        <ul>
+			        <li><a href="https://angularjs.org/">AngularJS</a></li>
+			        <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+			        <li><a href="http://jquery.com/">jQuery</a></li>
+			        <li><a href="http://laravel.com/">Laravel PHP Framework</a></li>
+		        </ul>
+		        <h5><strong>Credits</strong></h5>
+		        <ul>
+			       	<li><a href="http://simplehtmldom.sourceforge.net/">PHP Simple HTML DOM Parser</a></li>
+			        <li><a href="http://startbootstrap.com/template-overviews/simple-sidebar/">Simple Sidebar</a>
+					<li><a href="http://codepen.io/anon/pen/fjkcg">Sorting</a> 
+					<li><a href="http://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/834px-Apple_logo_black.svg.png">Apple icon</a></li>
+					<li>
+						<a href="http://thenounproject.com/">Icons by the Noun Project</a>
+						<ul>
+							<li>Penguin icon by Camila Bertoco</li>
+							<li>Sad Window icon by Julien Deveaux</li>
+							<li>Windows icon by Mister Pixel</li>
+							<li>Write icon by iconoci</li>
+						</ul>
+					</li>
+		        </ul>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		<!-- Modal end -->
+
+      	<!-- Page Content -->
+      	<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<button type="button" class="btn btn-default" id="menu-toggle"><span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filter</button>
+				<div id="title">
+					<img src="img/logo.png" id="logo" alt="Lab Finder Logo" width="60" height="60" />
+					<div id="brand"><h1>Lab Finder</h1><small>Stop looking, start working</small></div>
+				</div>
+
+				<table class="table table-striped">
+					<thead class="cf">
+						<tr>
+							<th>
+								<a href="#" ng-click="orderByField='building'; reverseSort = !reverseSort">
+								Building 
+								<span ng-show="orderByField == 'building'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="orderByField='room_num'; reverseSort = !reverseSort">
+								Room 
+								<span ng-show="orderByField == 'room_num'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+		          				</a>
+							</th>
+
+							<th>
+								<a href="#" ng-click="orderByField='type'; reverseSort = !reverseSort">
+								Type
+								<span ng-show="orderByField == 'type'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="orderByField='remaining'; reverseSort = !reverseSort">
+								Time Remaining
+								<span ng-show="orderByField == 'remaining'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-animate="'animate'" ng-repeat="availability in availabilities | buildingFilter:filterBuildings | typeFilter:filterTypes | filter:durationRange | orderBy:orderByField:reverseSort">
+							<td data-title="Building">{{availability.building}}</td>
+							<td data-title="Room">{{availability.room_num}}</td>
+							<td ng-switch="availability.type">
+						        <div ng-switch-when="Mac"><img src="img/apple.png" height="25" alt="Apple Logo" title="Mac Lab" /></div>
+						        <div ng-switch-when="Windows"><img src="img/windows.png" height="25" alt="Windows Logo" title="Windows Lab" /></div>
+						        <div ng-switch-when="Linux"><img src="img/linux.png" height="25" alt="Linux Penguin Logo" title="Linux Lab" /></div>
+						        <div ng-switch-default><img src="img/room.png" height="25" alt="Pencil and Paper" title="Classroom" /></div>
+							</td>
+							<td>{{(Math.floor(availability.remaining/60))}} hours {{(availability.remaining%60)}} mins
+								<div class="progress">
+									<div class="progress-bar" role="progressbar" aria-valuenow="{{(100 * availability.remaining / availability.maxRemaining)}}" aria-valuemin="0" aria-valuemax="{{availability.maxRemaining}}"	style="width:{{(100 * availability.remaining / availability.maxRemaining)}}%;">
+								  	</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div ng-switch on="dataStatus">
+				<div ng-switch-when="empty">
+					<img src="img/404.png" id="no_room" alt="No room found" />
+					<p class="alert_text">Sorry, no rooms found</p>
+					<p class="alert_text">Adjust the filters on the left.</p>
+				</div>
+				<div ng-switch-when="not empty">
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+
+	<script>
+	    $("#menu-toggle").click(function(e) {
+	        e.preventDefault();
+	        $("#wrapper").toggleClass("toggled");
+	    });
+	    
+	    function addZero(i) {
+		    if (i < 10) {
+		        i = "0" + i;
+		    }
+		    return i;
+		}
+				
+    </script>
+	</body>
+</html>
+
+<!--
+	** Credit: **
+
+	Simple Sidebar: 
+	http://startbootstrap.com/template-overviews/simple-sidebar/
+
+	Sorting feature: 
+	http://codepen.io/anon/pen/fjkcg
+
+	Windows icon by Mister Pixel 
+	Penguin icon by Camila Bertoco
+	Command icon by Nadir Balcikli
+	Notebook icon by Alex Hartmann
+	Sad Window icon by Julien Deveaux
+	Write icon by iconoci
+-->

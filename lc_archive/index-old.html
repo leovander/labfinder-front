@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="roomApp" ng-controller="RoomListCtrl"> 
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js"></script> -->
+		<link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css">
+		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<link rel="stylesheet" href="css/simple-sidebar.css">
+
+		<script type="text/javascript" src="bower_components/jquery/jquery.min.js"></script>
+  		<script type="text/javascript" src="bower_components/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+  		<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>	
+  		<script src="http://documentcloud.github.com/underscore/underscore-min.js"></script>
+  		<script src="js/jquery.js"></script>
+  		<script src="js/bootstrap.min.js"></script>
+  		<script type="text/javascript" src="controllers.js"></script>
+		<script type="text/javascript" src="js/slider.js"></script>
+  		
+	</head>
+	<body>
+
+	<div id="wrapper">
+
+		<!-- Sidebar -->
+        <div id="sidebar-wrapper">
+        	<div id="filterItem">
+        		<!--
+    			<div class="sliderExample"><a name="ex1"></a>
+					<div ui-slider min="0" max="200" ng-model="demoVals.sliderExample1"></div>
+					<input type="text" ng-model="demoVals.sliderExample1" />	
+				</div>
+				-->
+				<label>Date</label>
+				<input type="date" ng-model="datePicker" ng-model-instance>
+
+				<label>Time</label>
+				<input type="time" ng-model="timePicker" ng-model-instance>
+				<br/>
+				<br/>
+
+				<label>Building Fitler</label>
+				<div ng-repeat = "item in buildings">
+		    		<input type="checkbox" ng-model="filterBuildings[item.name]"> {{item.name}}
+		  		</div>
+
+				<label>Type Filter</label>
+		  		<div ng-repeat = "item in types">
+		    		<input type="checkbox" ng-model="filterTypes[item.type]"> {{item.type}}
+		  		</div>
+		  	</div>
+
+      	</div>
+
+      	<!-- Page Content -->
+      	<div id="page-content-wrapper">
+			<div class="container-fluid">
+
+				<button type="button" class="btn btn-default" id="menu-toggle">
+					<span class="glyphicon glyphicon-th-list"></span>
+				</button>
+
+				<h1>Lab Crasher</h1>
+				<!-- <div id="no-more-tables"> -->
+				<table class="table table-striped">
+					<thead class="cf">
+						<tr>
+							<th>
+								<a href="#" ng-click="orderByField='building'; reverseSort = !reverseSort">
+								Building 
+								<span ng-show="orderByField == 'building'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="orderByField='room_num'; reverseSort = !reverseSort">
+								Room 
+								<span ng-show="orderByField == 'room_num'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+		          				</a>
+							</th>
+							<th>
+								<a href="#" ng-click="orderByField='start'; reverseSort = !reverseSort">
+								Start Time
+								<span ng-show="orderByField == 'start'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="orderByField='end'; reverseSort = !reverseSort">
+								End Time
+								<span ng-show="orderByField == 'end'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="orderByField='type'; reverseSort = !reverseSort">
+								Type
+								<span ng-show="orderByField == 'type'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+							<th>
+								<a href="#" ng-click="orderByField='remaining'; reverseSort = !reverseSort">
+								Remaining
+								<span ng-show="orderByField == 'remaining'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span>
+								</a>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="availability in availabilities | filter:buildingFilter | filter:typeFilter | orderBy:orderByField:reverseSort">
+							<td data-title="Building">{{availability.building}}</td>
+							<td data-title="Room">{{availability.room_num}}</td>
+							<td data-title="Start Time">{{availability.start}}</td>
+							<td data-title="End Time">{{availability.end}}</td>
+							<td data-title="Type">{{availability.type}}</td>
+							<td data-title="Remaining">{{availability.remaining}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<!-- </div> -->
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<script>
+		    $("#menu-toggle").click(function(e) {
+		        e.preventDefault();
+		        $("#wrapper").toggleClass("toggled");
+		    });
+    </script>
+	</body>
+</html>
