@@ -1,6 +1,2 @@
-labcrasher
-==========
-##Labcrasher
-
-##Version 0.9.17 
 # labfinder-front
+This is the front end code to the labfinder CSULB.
